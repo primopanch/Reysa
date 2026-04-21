@@ -8,7 +8,7 @@ public class icons {
 
     // --- LOGO PRINCIPAL ---
     public static ImageIcon getLogo() {
-        return loadAndScale("/org/DevMex/Reysa/resources/icons/ReysaLogo.png", 180, 50); // Ajusta la altura (50) según la proporción real de tu logo
+        return loadAndScale("/org/DevMex/Reysa/resources/icons/ReysaLogo.png", 170, 130); // Ajusta la altura (50) según la proporción real de tu logo
     }
 
     // --- ÍCONOS DE NAVEGACIÓN ---

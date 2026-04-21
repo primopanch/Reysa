@@ -52,7 +52,7 @@ public class Modularization extends JPanel {
     }
 
     // --- MÉTODOS DE CONSTRUCCIÓN DE UI ---
-private JPanel createSidebar() {
+    private JPanel createSidebar() {
         JPanel sidebar = new JPanel();
         sidebar.setPreferredSize(new Dimension(260, 0));
         sidebar.setBackground(appTheme.baseBlack);
@@ -69,7 +69,7 @@ private JPanel createSidebar() {
         logoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         topLogoPanel.add(logoLabel);
         
-        topLogoPanel.add(Box.createVerticalStrut(20)); // Espacio antes de la línea
+        topLogoPanel.add(Box.createVerticalStrut(-10)); // Espacio antes de la línea
         
         // 2. Línea separadora sutil
         JSeparator topSeparator = new JSeparator();
@@ -140,9 +140,9 @@ private JPanel createSidebar() {
         topBar.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(200, 200, 200)));
 
         // 5. Título con fuente Orbitron
-       // JLabel titleLabel = new JLabel("   Vehículos");
-        //titleLabel.setFont(org.DevMex.Reysa.ui.themes.AppFonts.getOrbitron(18f)); 
-       // titleLabel.setForeground(new Color(100, 100, 100)); // Gris
+        // JLabel titleLabel = new JLabel("   Vehículos");
+        // titleLabel.setFont(org.DevMex.Reysa.ui.themes.AppFonts.getOrbitron(18f)); 
+        // titleLabel.setForeground(new Color(100, 100, 100)); // Gris
 
         JPanel rightControls = new JPanel(new FlowLayout(FlowLayout.RIGHT, 15, 15));
         rightControls.setOpaque(false);
@@ -150,7 +150,30 @@ private JPanel createSidebar() {
         // El campo de búsqueda también lleva la tipografía base
         JTextField searchField = new JTextField(" Buscar orden o cliente...", 20);
         searchField.setFont(org.DevMex.Reysa.ui.themes.AppFonts.getRajdhani(16f));
+        searchField.setForeground(Color.GRAY); // Color inicial del placeholder
         
+        // --- INICIO LÓGICA DE PLACEHOLDER ---
+        searchField.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                // Limpiar el campo si tiene el texto por defecto
+                if (searchField.getText().equals(" Buscar orden o cliente...")) {
+                    searchField.setText("");
+                    searchField.setForeground(Color.BLACK); // Color de texto normal
+                }
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                // Restaurar el placeholder si el usuario no escribió nada
+                if (searchField.getText().isEmpty()) {
+                    searchField.setForeground(Color.GRAY);
+                    searchField.setText(" Buscar orden o cliente...");
+                }
+            }
+        });
+        // --- FIN LÓGICA DE PLACEHOLDER ---
+
         JButton btnNuevo = new JButton("+ nuevo cliente");
         btnNuevo.setBackground(appTheme.reysaRed);
         btnNuevo.setForeground(Color.WHITE);
@@ -160,7 +183,7 @@ private JPanel createSidebar() {
         rightControls.add(searchField);
         rightControls.add(btnNuevo);
 
-       // topBar.add(titleLabel, BorderLayout.WEST);
+        // topBar.add(titleLabel, BorderLayout.WEST);
         topBar.add(rightControls, BorderLayout.EAST);
 
         return topBar;
