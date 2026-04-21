@@ -2,12 +2,9 @@ package org.DevMex.Reysa.ui.themes;
 import java.awt.Color;
 
 public class appTheme {
-    public static final Color mainRed = new Color(0xD7262E);
-    public static final Color baseBlack = new Color(0x1E1E1E);
-    public static final Color neutralWhite = new Color(0xE5E5E5);
-    public static final Color bgMetalicGrey = new Color(0xA8A8A8);
-    public static final Color intenseYellow = new Color(0xFFC300);
-    public static final Color middleOrange = new Color(0xFF6A00);
-    public static final Color bluelessBlue = new Color(0x4A90E2);
-    
+    public static final Color baseBlack = new Color(25, 25, 25); // Fondo del sidebar
+    public static final Color bgMetalicGrey = new Color(225, 225, 225); // Fondo principal
+    public static final Color reysaRed = new Color(210, 35, 42); // Rojo de botones activos
+    public static final Color textWhite = new Color(255, 255, 255);
+    public static final Color textDark = new Color(50, 50, 50);
 }
