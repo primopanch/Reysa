@@ -22,7 +22,7 @@ public class MenuButton extends JButton {
         setBorderPainted(false);
         setOpaque(false);
         setForeground(appTheme.textWhite);
-// Reemplaza la antigua línea setFont por esta:
+
         setFont(org.DevMex.Reysa.ui.themes.AppFonts.getRajdhani(20f));        setIconTextGap(15);
         setHorizontalAlignment(SwingConstants.LEFT);
         setCursor(new Cursor(Cursor.HAND_CURSOR));

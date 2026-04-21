@@ -140,9 +140,9 @@ private JPanel createSidebar() {
         topBar.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(200, 200, 200)));
 
         // 5. Título con fuente Orbitron
-        JLabel titleLabel = new JLabel("   Vehículos");
-        titleLabel.setFont(org.DevMex.Reysa.ui.themes.AppFonts.getOrbitron(18f)); 
-        titleLabel.setForeground(new Color(100, 100, 100)); // Gris
+       // JLabel titleLabel = new JLabel("   Vehículos");
+        //titleLabel.setFont(org.DevMex.Reysa.ui.themes.AppFonts.getOrbitron(18f)); 
+       // titleLabel.setForeground(new Color(100, 100, 100)); // Gris
 
         JPanel rightControls = new JPanel(new FlowLayout(FlowLayout.RIGHT, 15, 15));
         rightControls.setOpaque(false);
@@ -160,7 +160,7 @@ private JPanel createSidebar() {
         rightControls.add(searchField);
         rightControls.add(btnNuevo);
 
-        topBar.add(titleLabel, BorderLayout.WEST);
+       // topBar.add(titleLabel, BorderLayout.WEST);
         topBar.add(rightControls, BorderLayout.EAST);
 
         return topBar;
