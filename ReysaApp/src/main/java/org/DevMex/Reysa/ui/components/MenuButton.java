@@ -10,7 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 
-import org.DevMex.Reysa.ui.themes.appTheme;
+import org.DevMex.Reysa.ui.themes.AppTheme;
 
 public class MenuButton extends JButton {
     private boolean isActive = false;
@@ -21,13 +21,15 @@ public class MenuButton extends JButton {
         setContentAreaFilled(false); // Apagamos el renderizado default de Swing
         setBorderPainted(false);
         setOpaque(false);
-        setForeground(appTheme.textWhite);
+        setForeground(AppTheme.textWhite);
 
-        setFont(org.DevMex.Reysa.ui.themes.AppFonts.getRajdhani(20f));        setIconTextGap(15);
+        setFont(org.DevMex.Reysa.ui.themes.AppFonts.getRajdhani(20f));
+        setIconTextGap(15);
         setHorizontalAlignment(SwingConstants.LEFT);
         setCursor(new Cursor(Cursor.HAND_CURSOR));
+        setMinimumSize(new Dimension(180, 50));
         setPreferredSize(new Dimension(220, 50));
-        setMaximumSize(new Dimension(220, 50)); // Importante para BoxLayout
+        setMaximumSize(new Dimension(Integer.MAX_VALUE, 60)); // Flexible width for responsive layouts
     }
 
     public void setActive(boolean active) {
@@ -40,7 +42,7 @@ public class MenuButton extends JButton {
         if (isActive) {
             Graphics2D g2 = (Graphics2D) g.create();
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2.setColor(appTheme.reysaRed);
+            g2.setColor(AppTheme.reysaRed);
             // Dibuja el fondo rojo con bordes redondeados (radio de 20px)
             g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
             g2.dispose();

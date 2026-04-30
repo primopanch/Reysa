@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
-import org.DevMex.Reysa.ui.themes.appTheme;
+import org.DevMex.Reysa.ui.themes.AppTheme;
 
 public class Modularization extends JPanel {
 
@@ -17,6 +17,11 @@ public class Modularization extends JPanel {
     private CardLayout cardLayout;
     private JPanel contentCards;
     
+    private JPanel topBar;
+    private JPanel navPanel;
+    private JTextField searchField;
+    private JButton btnNuevo;
+
     // Lista para manejar el estado visual de los botones
     private ArrayList<MenuButton> menuButtons = new ArrayList<>();
 
@@ -25,7 +30,7 @@ public class Modularization extends JPanel {
 
         // 1. Inicializar el contenedor derecho (Topbar + Contenido)
         rightSideContainer = new JPanel(new BorderLayout());
-        rightSideContainer.setBackground(appTheme.bgMetalicGrey);
+        rightSideContainer.setBackground(AppTheme.bgMetalicGrey);
 
         // 2. Crear y añadir la barra superior
         rightSideContainer.add(createTopBar(), BorderLayout.NORTH);
@@ -33,11 +38,11 @@ public class Modularization extends JPanel {
         // 3. Configurar el CardLayout para el contenido central
         cardLayout = new CardLayout();
         contentCards = new JPanel(cardLayout);
-        contentCards.setBackground(appTheme.bgMetalicGrey);
+        contentCards.setBackground(AppTheme.bgMetalicGrey);
         
-        // Añadir las "pantallas" falsas por ahora
+        // --- Configuración de tarjetas ---
         contentCards.add(createDummyPanel("Pantalla: Tablero"), "Tablero");
-        contentCards.add(createDummyPanel("Pantalla: Vehículos"), "Vehiculos");
+        contentCards.add(createVehiculosPanel(), "Vehiculos");
         contentCards.add(createDummyPanel("Pantalla: Clientes"), "Clientes");
         contentCards.add(createDummyPanel("Pantalla: Reservas"), "Reservas");
         
@@ -49,32 +54,72 @@ public class Modularization extends JPanel {
         // 5. Ensamblar todo
         this.add(leftPanel, BorderLayout.WEST);
         this.add(rightSideContainer, BorderLayout.CENTER);
+
+        this.addComponentListener(new java.awt.event.ComponentAdapter() {
+            @Override
+            public void componentResized(java.awt.event.ComponentEvent e) {
+                applyResponsiveLayout();
+            }
+        });
+
+        applyResponsiveLayout();
     }
 
     // --- MÉTODOS DE CONSTRUCCIÓN DE UI ---
+
+    /**
+     * Ensambla la pantalla de Vehículos agregando las tarjetas de vehículos.
+     */
+    private JPanel createVehiculosPanel() {
+        // 1. Creamos el contenedor principal de esta vista
+        JPanel vehiculosPanel = new JPanel();
+        vehiculosPanel.setLayout(new BoxLayout(vehiculosPanel, BoxLayout.Y_AXIS));
+        vehiculosPanel.setBackground(AppTheme.bgMetalicGrey);
+        // Margen exterior para que la tarjeta no pegue con los bordes de la ventana
+        vehiculosPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        // 2. Instanciamos la tarjeta del vehículo
+        VehicleCard card1 = new VehicleCard(
+            Icons.getVehicleImageLarge(),
+            new Color(245, 130, 32), 
+            "ORDEN-2026-017", "Honda", "Civic 2009", "Gris plata", "B-101-707", "4TX89BN3TXWXXXXXX", 
+            "Reparando", new Color(245, 130, 32), null
+        );
+
+        // En un BoxLayout, esto evita que la tarjeta se estire verticalmente de forma extraña
+        card1.setMaximumSize(new Dimension(850, 180)); 
+        card1.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        // 3. Agregamos la tarjeta al panel
+        vehiculosPanel.add(card1);
+        
+        // 4. Agregamos un "resorte" invisible que empuja la tarjeta hacia arriba
+        vehiculosPanel.add(Box.createVerticalGlue());
+
+        return vehiculosPanel;
+    }
+
     private JPanel createSidebar() {
         JPanel sidebar = new JPanel();
         sidebar.setPreferredSize(new Dimension(260, 0));
-        sidebar.setBackground(appTheme.baseBlack);
+        sidebar.setBackground(AppTheme.baseBlack);
         sidebar.setLayout(new BorderLayout());
 
         // --- Parte Superior: Logo ---
         JPanel topLogoPanel = new JPanel();
         topLogoPanel.setOpaque(false);
         topLogoPanel.setLayout(new BoxLayout(topLogoPanel, BoxLayout.Y_AXIS));
-        topLogoPanel.setBorder(BorderFactory.createEmptyBorder(30, 0, 20, 0)); // Margen superior
+        topLogoPanel.setBorder(BorderFactory.createEmptyBorder(30, 0, 20, 0)); 
         
-        // 1. Añadimos el Logo Real
-        JLabel logoLabel = new JLabel(icons.getLogo()); 
+        JLabel logoLabel = new JLabel(Icons.getLogo()); 
         logoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         topLogoPanel.add(logoLabel);
         
-        topLogoPanel.add(Box.createVerticalStrut(-10)); // Espacio antes de la línea
+        topLogoPanel.add(Box.createVerticalStrut(-10)); 
         
-        // 2. Línea separadora sutil
         JSeparator topSeparator = new JSeparator();
         topSeparator.setMaximumSize(new Dimension(220, 1));
-        topSeparator.setForeground(new Color(100, 100, 100)); // Gris oscuro
+        topSeparator.setForeground(new Color(100, 100, 100)); 
         topSeparator.setAlignmentX(Component.CENTER_ALIGNMENT);
         topLogoPanel.add(topSeparator);
 
@@ -82,15 +127,14 @@ public class Modularization extends JPanel {
         JPanel navPanel = new JPanel();
         navPanel.setOpaque(false);
         navPanel.setLayout(new BoxLayout(navPanel, BoxLayout.Y_AXIS));
-        navPanel.add(Box.createVerticalStrut(30)); // Espacio inicial
+        navPanel.add(Box.createVerticalStrut(30)); 
 
-        // 3. Crear botones con los Íconos Reales
-        MenuButton btnTablero = createNavButton("Tablero", icons.getHomeIcon(), "Tablero");
-        MenuButton btnVehiculos = createNavButton("Vehiculos", icons.getVehiclesIcon(), "Vehiculos");
-        MenuButton btnClientes = createNavButton("Clientes", icons.getClientsIcon(), "Clientes");
-        MenuButton btnReservas = createNavButton("Reservas", icons.getCalendarIcon(), "Reservas");
+        MenuButton btnTablero = createNavButton("Tablero", Icons.getHomeIcon(), "Tablero");
+        MenuButton btnVehiculos = createNavButton("Vehiculos", Icons.getVehiclesIcon(), "Vehiculos");
+        MenuButton btnClientes = createNavButton("Clientes", Icons.getClientsIcon(), "Clientes");
+        MenuButton btnReservas = createNavButton("Reservas", Icons.getCalendarIcon(), "Reservas");
 
-        btnTablero.setActive(true); // Estado inicial
+        btnTablero.setActive(true); 
 
         navPanel.add(wrapInMargin(btnTablero));
         navPanel.add(wrapInMargin(btnVehiculos));
@@ -102,30 +146,27 @@ public class Modularization extends JPanel {
         bottomContainer.setOpaque(false);
         bottomContainer.setLayout(new BoxLayout(bottomContainer, BoxLayout.Y_AXIS));
         
-        // Línea separadora inferior
         JSeparator bottomSeparator = new JSeparator();
         bottomSeparator.setMaximumSize(new Dimension(220, 1));
         bottomSeparator.setForeground(new Color(100, 100, 100));
         bottomSeparator.setAlignmentX(Component.CENTER_ALIGNMENT);
         bottomContainer.add(bottomSeparator);
         
-        // Panel del usuario Admin
         JPanel adminPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 0));
         adminPanel.setOpaque(false);
         adminPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         
-        JLabel adminIconLabel = new JLabel(icons.getProfileIcon());
+        JLabel adminIconLabel = new JLabel(Icons.getProfileIcon());
         JLabel adminLabel = new JLabel("Admin");
         adminLabel.setForeground(Color.WHITE);
-        // 4. Aplicamos fuente Rajdhani al texto del Admin
-        adminLabel.setFont(org.DevMex.Reysa.ui.themes.AppFonts.getRajdhani(20f)); 
+        
+        // adminLabel.setFont(org.DevMex.Reysa.ui.themes.AppFonts.getRajdhani(20f)); 
         
         adminPanel.add(adminIconLabel);
         adminPanel.add(adminLabel);
         
         bottomContainer.add(adminPanel);
 
-        // Ensamblar Sidebar
         sidebar.add(topLogoPanel, BorderLayout.NORTH);
         sidebar.add(navPanel, BorderLayout.CENTER);
         sidebar.add(bottomContainer, BorderLayout.SOUTH);
@@ -134,85 +175,100 @@ public class Modularization extends JPanel {
     }
 
     private JPanel createTopBar() {
-        JPanel topBar = new JPanel(new BorderLayout());
-        topBar.setBackground(appTheme.bgMetalicGrey);
-        topBar.setPreferredSize(new Dimension(0, 70));
-        topBar.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(200, 200, 200)));
-
-        // 5. Título con fuente Orbitron
-        // JLabel titleLabel = new JLabel("   Vehículos");
-        // titleLabel.setFont(org.DevMex.Reysa.ui.themes.AppFonts.getOrbitron(18f)); 
-        // titleLabel.setForeground(new Color(100, 100, 100)); // Gris
+        topBar = new JPanel(new BorderLayout());
+        topBar.setBackground(AppTheme.bgMetalicGrey);
+        topBar.setPreferredSize(new Dimension(0, 75)); 
+        topBar.setBorder(new BottomShadowBorder(5, 0.15f));
 
         JPanel rightControls = new JPanel(new FlowLayout(FlowLayout.RIGHT, 15, 15));
         rightControls.setOpaque(false);
         
-        // El campo de búsqueda también lleva la tipografía base
-        JTextField searchField = new JTextField(" Buscar orden o cliente...", 20);
-        searchField.setFont(org.DevMex.Reysa.ui.themes.AppFonts.getRajdhani(16f));
-        searchField.setForeground(Color.GRAY); // Color inicial del placeholder
+        searchField = new JTextField(" Buscar orden o cliente...", 20);
+        // searchField.setFont(org.DevMex.Reysa.ui.themes.AppFonts.getRajdhani(16f));
+        searchField.setForeground(Color.GRAY); 
         
-        // --- INICIO LÓGICA DE PLACEHOLDER ---
         searchField.addFocusListener(new java.awt.event.FocusAdapter() {
             @Override
             public void focusGained(java.awt.event.FocusEvent evt) {
-                // Limpiar el campo si tiene el texto por defecto
                 if (searchField.getText().equals(" Buscar orden o cliente...")) {
                     searchField.setText("");
-                    searchField.setForeground(Color.BLACK); // Color de texto normal
+                    searchField.setForeground(Color.BLACK); 
                 }
             }
 
             @Override
             public void focusLost(java.awt.event.FocusEvent evt) {
-                // Restaurar el placeholder si el usuario no escribió nada
                 if (searchField.getText().isEmpty()) {
                     searchField.setForeground(Color.GRAY);
                     searchField.setText(" Buscar orden o cliente...");
                 }
             }
         });
-        // --- FIN LÓGICA DE PLACEHOLDER ---
 
-        JButton btnNuevo = new JButton("+ nuevo cliente");
-        btnNuevo.setBackground(appTheme.reysaRed);
+        btnNuevo = new JButton("+ nuevo cliente");
+        btnNuevo.setBackground(AppTheme.reysaRed);
         btnNuevo.setForeground(Color.WHITE);
-        btnNuevo.setFont(org.DevMex.Reysa.ui.themes.AppFonts.getRajdhani(16f));
+        // btnNuevo.setFont(org.DevMex.Reysa.ui.themes.AppFonts.getRajdhani(16f));
         btnNuevo.setFocusPainted(false);
         
         rightControls.add(searchField);
         rightControls.add(btnNuevo);
 
-        // topBar.add(titleLabel, BorderLayout.WEST);
         topBar.add(rightControls, BorderLayout.EAST);
 
         return topBar;
+    }
+
+    private void applyResponsiveLayout() {
+        int width = getWidth();
+        int height = getHeight();
+        if (width <= 0 || height <= 0) {
+            return;
+        }
+
+        int sidebarWidth = Math.max(220, Math.min(320, width / 5));
+        leftPanel.setPreferredSize(new Dimension(sidebarWidth, 0));
+
+        int topHeight = Math.max(70, Math.min(110, height / 10));
+        if (topBar != null) {
+            topBar.setPreferredSize(new Dimension(0, topHeight));
+        }
+
+        int buttonHeight = Math.max(48, Math.min(60, topHeight - 10));
+        for (MenuButton mb : menuButtons) {
+            mb.setPreferredSize(new Dimension(sidebarWidth - 40, buttonHeight));
+        }
+
+        if (searchField != null) {
+            searchField.setPreferredSize(new Dimension(Math.max(180, width / 4), Math.max(34, topHeight - 20)));
+        }
+        if (btnNuevo != null) {
+            btnNuevo.setPreferredSize(new Dimension(Math.max(140, width / 8), Math.max(34, topHeight - 20)));
+        }
+
+        revalidate();
+        repaint();
     }
 
     // --- LÓGICA DE NAVEGACIÓN ---
 
     private MenuButton createNavButton(String text, ImageIcon icon, String cardName) {
         MenuButton btn = new MenuButton(text, icon);
-        menuButtons.add(btn); // Guardamos referencia para cambiar colores después
+        menuButtons.add(btn); 
 
         btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // 1. Apagar todos los botones
                 for (MenuButton mb : menuButtons) {
                     mb.setActive(false);
                 }
-                // 2. Encender solo el que fue presionado
                 btn.setActive(true);
-                
-                // 3. Cambiar la vista en el panel central
                 cardLayout.show(contentCards, cardName);
             }
         });
         return btn;
     }
 
-    // Método de utilidad para dar margen al botón en el BoxLayout
     private JPanel wrapInMargin(JComponent comp) {
         JPanel wrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
         wrapper.setOpaque(false);
@@ -220,7 +276,6 @@ public class Modularization extends JPanel {
         return wrapper;
     }
 
-    // Panel temporal para visualizar los cambios
     private JPanel createDummyPanel(String text) {
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setOpaque(false);

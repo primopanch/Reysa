@@ -1,0 +1,43 @@
+package org.DevMex.Reysa.ui.components;
+
+import javax.swing.*;
+import java.awt.*;
+
+/**
+ * A custom JPanel that simulates an inset field effect for displaying text.
+ */
+public class InsetField extends JPanel {
+    private final String text;
+
+    public InsetField(String text) {
+        this.text = text;
+        setOpaque(false);
+        setPreferredSize(new Dimension(150, 30)); // Standard size
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D) g.create();
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        int w = getWidth() - 2;
+        int h = getHeight() - 2;
+
+        // Background slightly darker than the card
+        g2.setColor(new Color(215, 215, 215));
+        g2.fillRoundRect(1, 1, w, h, 15, 15);
+
+        // Subtle border to simulate inset
+        g2.setColor(new Color(180, 180, 180));
+        g2.drawRoundRect(1, 1, w, h, 15, 15);
+
+        // Text
+        g2.setColor(new Color(80, 80, 80));
+        g2.setFont(new Font("SansSerif", Font.BOLD, 13));
+        FontMetrics fm = g2.getFontMetrics();
+        g2.drawString(text, 10, (h - fm.getHeight()) / 2 + fm.getAscent());
+
+        g2.dispose();
+    }
+}
