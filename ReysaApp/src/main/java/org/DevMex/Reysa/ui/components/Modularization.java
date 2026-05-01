@@ -9,11 +9,9 @@ import org.DevMex.Reysa.ui.themes.AppTheme;
 
 public class Modularization extends JPanel {
 
-    // Contenedores principales
     private JPanel leftPanel;
     private JPanel rightSideContainer;
     
-    // Sistema de navegación (CardLayout)
     private CardLayout cardLayout;
     private JPanel contentCards;
     
@@ -22,25 +20,20 @@ public class Modularization extends JPanel {
     private JTextField searchField;
     private JButton btnNuevo;
 
-    // Lista para manejar el estado visual de los botones
     private ArrayList<MenuButton> menuButtons = new ArrayList<>();
 
     public Modularization() {
         this.setLayout(new BorderLayout());
 
-        // 1. Inicializar el contenedor derecho (Topbar + Contenido)
         rightSideContainer = new JPanel(new BorderLayout());
         rightSideContainer.setBackground(AppTheme.bgMetalicGrey);
 
-        // 2. Crear y añadir la barra superior
         rightSideContainer.add(createTopBar(), BorderLayout.NORTH);
 
-        // 3. Configurar el CardLayout para el contenido central
         cardLayout = new CardLayout();
         contentCards = new JPanel(cardLayout);
         contentCards.setBackground(AppTheme.bgMetalicGrey);
         
-        // --- Configuración de tarjetas ---
         contentCards.add(createDummyPanel("Pantalla: Tablero"), "Tablero");
         contentCards.add(createVehiculosPanel(), "Vehiculos");
         contentCards.add(createDummyPanel("Pantalla: Clientes"), "Clientes");
@@ -48,10 +41,8 @@ public class Modularization extends JPanel {
         
         rightSideContainer.add(contentCards, BorderLayout.CENTER);
 
-        // 4. Crear el Sidebar
         leftPanel = createSidebar();
 
-        // 5. Ensamblar todo
         this.add(leftPanel, BorderLayout.WEST);
         this.add(rightSideContainer, BorderLayout.CENTER);
 
@@ -65,20 +56,12 @@ public class Modularization extends JPanel {
         applyResponsiveLayout();
     }
 
-    // --- MÉTODOS DE CONSTRUCCIÓN DE UI ---
-
-    /**
-     * Ensambla la pantalla de Vehículos agregando las tarjetas de vehículos.
-     */
     private JPanel createVehiculosPanel() {
-        // 1. Creamos el contenedor principal de esta vista
         JPanel vehiculosPanel = new JPanel();
         vehiculosPanel.setLayout(new BoxLayout(vehiculosPanel, BoxLayout.Y_AXIS));
         vehiculosPanel.setBackground(AppTheme.bgMetalicGrey);
-        // Margen exterior para que la tarjeta no pegue con los bordes de la ventana
         vehiculosPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // 2. Instanciamos la tarjeta del vehículo
         VehicleCard card1 = new VehicleCard(
             Icons.getVehicleImageLarge(),
             new Color(245, 130, 32), 
@@ -86,14 +69,11 @@ public class Modularization extends JPanel {
             "Reparando", new Color(245, 130, 32), null
         );
 
-        // En un BoxLayout, esto evita que la tarjeta se estire verticalmente de forma extraña
         card1.setMaximumSize(new Dimension(850, 180)); 
         card1.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        // 3. Agregamos la tarjeta al panel
         vehiculosPanel.add(card1);
         
-        // 4. Agregamos un "resorte" invisible que empuja la tarjeta hacia arriba
         vehiculosPanel.add(Box.createVerticalGlue());
 
         return vehiculosPanel;
@@ -105,7 +85,6 @@ public class Modularization extends JPanel {
         sidebar.setBackground(AppTheme.baseBlack);
         sidebar.setLayout(new BorderLayout());
 
-        // --- Parte Superior: Logo ---
         JPanel topLogoPanel = new JPanel();
         topLogoPanel.setOpaque(false);
         topLogoPanel.setLayout(new BoxLayout(topLogoPanel, BoxLayout.Y_AXIS));
@@ -123,7 +102,6 @@ public class Modularization extends JPanel {
         topSeparator.setAlignmentX(Component.CENTER_ALIGNMENT);
         topLogoPanel.add(topSeparator);
 
-        // --- Parte Central: Botones de Navegación ---
         JPanel navPanel = new JPanel();
         navPanel.setOpaque(false);
         navPanel.setLayout(new BoxLayout(navPanel, BoxLayout.Y_AXIS));
@@ -160,8 +138,6 @@ public class Modularization extends JPanel {
         JLabel adminLabel = new JLabel("Admin");
         adminLabel.setForeground(Color.WHITE);
         
-        // adminLabel.setFont(org.DevMex.Reysa.ui.themes.AppFonts.getRajdhani(20f)); 
-        
         adminPanel.add(adminIconLabel);
         adminPanel.add(adminLabel);
         
@@ -184,8 +160,7 @@ public class Modularization extends JPanel {
         rightControls.setOpaque(false);
         
         searchField = new JTextField(" Buscar orden o cliente...", 20);
-        // searchField.setFont(org.DevMex.Reysa.ui.themes.AppFonts.getRajdhani(16f));
-        searchField.setForeground(Color.GRAY); 
+        searchField.setForeground(Color.GRAY);
         
         searchField.addFocusListener(new java.awt.event.FocusAdapter() {
             @Override
@@ -208,7 +183,6 @@ public class Modularization extends JPanel {
         btnNuevo = new JButton("+ nuevo cliente");
         btnNuevo.setBackground(AppTheme.reysaRed);
         btnNuevo.setForeground(Color.WHITE);
-        // btnNuevo.setFont(org.DevMex.Reysa.ui.themes.AppFonts.getRajdhani(16f));
         btnNuevo.setFocusPainted(false);
         
         rightControls.add(searchField);
@@ -249,8 +223,6 @@ public class Modularization extends JPanel {
         revalidate();
         repaint();
     }
-
-    // --- LÓGICA DE NAVEGACIÓN ---
 
     private MenuButton createNavButton(String text, ImageIcon icon, String cardName) {
         MenuButton btn = new MenuButton(text, icon);

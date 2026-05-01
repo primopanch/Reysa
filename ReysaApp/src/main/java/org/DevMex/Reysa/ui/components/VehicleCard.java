@@ -11,20 +11,18 @@ public class VehicleCard extends JPanel {
 
     private final int cornerRadius = 20;
     private final int shadowSize = 6;
-    private final int shadowOpacity = 40; // 0 a 255
+    private final int shadowOpacity = 40;
 
     public VehicleCard(ImageIcon imageIcon, Color imgBorderColor, String idText, 
                        String marca, String modelo, String color, String placas, 
                        String vin, String statusText, Color statusColor, ImageIcon statusIcon) {
         
         setOpaque(false); 
-        setLayout(new BorderLayout(20, 0)); // Aumentamos la separación central a 20
+        setLayout(new BorderLayout(20, 0));
         setBorder(BorderFactory.createEmptyBorder(15, 15, 15 + shadowSize, 15 + shadowSize));
 
         BufferedImage image = iconToBufferedImage(imageIcon);
 
-        // 1. SECCIÓN IZQUIERDA: Imagen del vehículo (CORREGIDA)
-        // Al usar GridBagLayout aquí, evitamos que la imagen se estire verticalmente si la tarjeta crece
         JPanel leftPanel = new JPanel(new GridBagLayout()); 
         leftPanel.setOpaque(false);
         
@@ -32,7 +30,6 @@ public class VehicleCard extends JPanel {
         imgPanel.setMinimumSize(new Dimension(140, 110));
         leftPanel.add(imgPanel);
 
-        // 2. SECCIÓN DERECHA: Detalles del vehículo (CORREGIDA)
         JPanel rightPanel = new JPanel(new GridBagLayout());
         rightPanel.setOpaque(false);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -40,47 +37,41 @@ public class VehicleCard extends JPanel {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.weightx = 0.5;
 
-        // --- Fila 0: ID Interno ---
         gbc.gridx = 0; gbc.gridy = 0;
         gbc.gridwidth = 2;
-        gbc.weightx = 1.0; // Permite que esta fila ocupe todo el ancho
+        gbc.weightx = 1.0;
         gbc.insets = new Insets(0, 10, 10, 10);
         ElevatedBadge idBadge = new ElevatedBadge("  # " + idText, null, new Color(225, 225, 225), Color.BLACK, false);
         rightPanel.add(idBadge, gbc);
 
-        // --- Fila 1: Títulos Marca y Modelo ---
         gbc.gridwidth = 1;
-        gbc.weightx = 0.5; // Divide el espacio a la mitad para que queden separados
+        gbc.weightx = 0.5;
         gbc.insets = new Insets(0, 10, 2, 10);
         gbc.gridy = 1; gbc.gridx = 0;
         rightPanel.add(createLabelTitle("Marca"), gbc);
         gbc.gridx = 1;
         rightPanel.add(createLabelTitle("Modelo y Año"), gbc);
 
-        // --- Fila 2: Valores Marca y Modelo ---
         gbc.insets = new Insets(0, 10, 10, 10);
         gbc.gridy = 2; gbc.gridx = 0;
         rightPanel.add(new InsetField(marca), gbc);
         gbc.gridx = 1;
         rightPanel.add(new InsetField(modelo), gbc);
 
-        // --- Fila 3: Títulos Color y Placas ---
         gbc.insets = new Insets(0, 10, 2, 10);
         gbc.gridy = 3; gbc.gridx = 0;
         rightPanel.add(createLabelTitle("Color"), gbc);
         gbc.gridx = 1;
         rightPanel.add(createLabelTitle("Placas"), gbc);
 
-        // --- Fila 4: Valores Color y Placas ---
         gbc.insets = new Insets(0, 10, 10, 10);
         gbc.gridy = 4; gbc.gridx = 0;
         rightPanel.add(new InsetField(color), gbc);
         gbc.gridx = 1;
         rightPanel.add(new InsetField(placas), gbc);
 
-        // --- Fila 5: VIN y Estado ---
         gbc.gridy = 5; gbc.gridx = 0;
-        gbc.weighty = 1.0; // Este peso empuja esta fila hacia abajo y las demás hacia arriba
+        gbc.weighty = 1.0;
         gbc.anchor = GridBagConstraints.SOUTHWEST;
         JPanel vinPanel = new JPanel(new BorderLayout(5, 5));
         vinPanel.setOpaque(false);
@@ -93,7 +84,6 @@ public class VehicleCard extends JPanel {
         ElevatedBadge statusBadge = new ElevatedBadge(statusText, statusIcon, statusColor, Color.WHITE, true);
         rightPanel.add(statusBadge, gbc);
 
-        // 3. ENSAMBLAJE
         add(leftPanel, BorderLayout.WEST);
         add(rightPanel, BorderLayout.CENTER);
 
@@ -142,28 +132,21 @@ public class VehicleCard extends JPanel {
         int width = getWidth() - shadowSize - 5;
         int height = getHeight() - shadowSize - 5;
 
-        // 1. Sombra Paralela
         for (int i = 0; i < shadowSize; i++) {
             int alpha = (int) (shadowOpacity * (1.0f - (float)i / shadowSize));
             g2.setColor(new Color(0, 0, 0, alpha));
             g2.fillRoundRect(5 + i, 5 + i, width, height, cornerRadius, cornerRadius);
         }
 
-        // 2. Fondo Gris Claro
         g2.setColor(new Color(230, 230, 230)); 
         g2.fillRoundRect(5, 5, width, height, cornerRadius, cornerRadius);
 
-        // 3. Línea separadora ajustada a la nueva anchura
         g2.setColor(new Color(200, 200, 200));
         g2.setStroke(new BasicStroke(2));
-        g2.drawLine(200, 20, 200, height - 10); // Movida ligeramente a la derecha
+        g2.drawLine(200, 20, 200, height - 10);
 
         g2.dispose();
     }
-
-    // =====================================================================
-    // SUB-COMPONENTES MODULARES
-    // =====================================================================
 
     private class InsetField extends JPanel {
         private final String text;
@@ -204,7 +187,7 @@ public class VehicleCard extends JPanel {
         private final ImageIcon icon;
         private final Color bgColor;
         private final Color fgColor;
-        private final boolean isPill; 
+        private final boolean isPill;
 
         public ElevatedBadge(String text, ImageIcon icon, Color bgColor, Color fgColor, boolean isPill) {
             this.text = text;
