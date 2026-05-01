@@ -28,15 +28,15 @@ public class InsetField extends JPanel {
         int w = getWidth() - 2;
         int h = getHeight() - 2;
 
-        // Background slightly darker than the card
+       
         g2.setColor(new Color(215, 215, 215));
         g2.fillRoundRect(1, 1, w, h, 15, 15);
 
-        // Subtle border to simulate inset
+        
         g2.setColor(new Color(180, 180, 180));
         g2.drawRoundRect(1, 1, w, h, 15, 15);
 
-        // Text
+       
         g2.setColor(new Color(80, 80, 80));
         g2.setFont(new Font("SansSerif", Font.BOLD, 13));
         FontMetrics fm = g2.getFontMetrics();
