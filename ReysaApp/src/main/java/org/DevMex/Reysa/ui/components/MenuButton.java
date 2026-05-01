@@ -18,7 +18,7 @@ public class MenuButton extends JButton {
     public MenuButton(String text, ImageIcon icon) {
         super(text, icon);
         setFocusPainted(false);
-        setContentAreaFilled(false); // Apagamos el renderizado default de Swing
+        setContentAreaFilled(false);
         setBorderPainted(false);
         setOpaque(false);
         setForeground(AppTheme.textWhite);
@@ -34,7 +34,7 @@ public class MenuButton extends JButton {
 
     public void setActive(boolean active) {
         this.isActive = active;
-        repaint(); // Fuerza a redibujar el botón con el nuevo estado
+        repaint();
     }
 
     @Override
@@ -43,10 +43,9 @@ public class MenuButton extends JButton {
             Graphics2D g2 = (Graphics2D) g.create();
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g2.setColor(AppTheme.reysaRed);
-            // Dibuja el fondo rojo con bordes redondeados (radio de 20px)
             g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
             g2.dispose();
         }
-        super.paintComponent(g); // Dibuja el texto y el ícono encima
+        super.paintComponent(g);
     }
 }

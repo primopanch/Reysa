@@ -1,11 +1,15 @@
 package org.DevMex.Reysa.ui.components;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
-/**
- * A custom JPanel that simulates an inset field effect for displaying text.
- */
+import javax.swing.JPanel;
+
 public class InsetField extends JPanel {
     private final String text;
 

@@ -1,11 +1,16 @@
 package org.DevMex.Reysa.ui.components;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
-/**
- * A custom JPanel that simulates an elevated badge with drop shadow.
- */
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+
 public class ElevatedBadge extends JPanel {
     private final String text;
     private final ImageIcon icon;

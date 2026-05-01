@@ -5,14 +5,9 @@ import javax.swing.JPanel;
 
 import org.DevMex.Reysa.ui.components.Modularization;
 
-/**
- *
- * @author francisco
- */
 public class Main extends JPanel{
 
     public static void main(String[] args) {
-        //declaramos ventana donde se va a visualizar todo
         JFrame window = new JFrame("Reysa");
 
         Modularization ui = new Modularization();

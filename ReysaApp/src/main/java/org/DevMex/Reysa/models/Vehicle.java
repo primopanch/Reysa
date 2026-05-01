@@ -2,9 +2,6 @@ package org.DevMex.Reysa.models;
 
 import java.awt.Color;
 
-/**
- * Model class representing a vehicle in the system.
- */
 public class Vehicle {
     private String id;
     private String marca;
@@ -26,7 +23,6 @@ public class Vehicle {
         this.statusColor = statusColor;
     }
 
-    // Getters
     public String getId() { return id; }
     public String getMarca() { return marca; }
     public String getModelo() { return modelo; }
@@ -36,7 +32,6 @@ public class Vehicle {
     public String getStatus() { return status; }
     public Color getStatusColor() { return statusColor; }
 
-    // Setters (if needed)
     public void setId(String id) { this.id = id; }
     public void setMarca(String marca) { this.marca = marca; }
     public void setModelo(String modelo) { this.modelo = modelo; }

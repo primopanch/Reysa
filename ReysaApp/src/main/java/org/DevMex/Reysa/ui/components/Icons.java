@@ -4,16 +4,15 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+
 import javax.swing.ImageIcon;
 
 public class Icons {
 
-    // --- LOGO PRINCIPAL ---
     public static ImageIcon getLogo() {
-        return loadAndScale("/org/DevMex/Reysa/resources/icons/ReysaLogo.png", 170, 130); // Ajusta la altura (50) según la proporción real de tu logo
+        return loadAndScale("/org/DevMex/Reysa/resources/icons/ReysaLogo.png", 170, 130);
     }
 
-    // --- ÍCONOS DE NAVEGACIÓN ---
     public static ImageIcon getHomeIcon() {
         return loadAndScale("/org/DevMex/Reysa/resources/icons/homeIcon.png", 24, 24);
     }
@@ -30,7 +29,6 @@ public class Icons {
         return loadAndScale("/org/DevMex/Reysa/resources/icons/calendar.png", 24, 24);
     }
 
-    // --- ÍCONO DE USUARIO ---
     public static ImageIcon getProfileIcon() {
         return loadAndScale("/org/DevMex/Reysa/resources/icons/profile.png", 30, 30);
     }
