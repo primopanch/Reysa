@@ -1,51 +1,69 @@
 package org.DevMex.Reysa.ui.components;
 
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.*;
+import java.awt.geom.Path2D;
+import java.awt.geom.RoundRectangle2D;
+import javax.swing.*;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.SwingConstants;
-
+import org.DevMex.Reysa.ui.themes.AppFonts; // NUEVO: Import explícito de AppFonts
 import org.DevMex.Reysa.ui.themes.AppTheme;
 
 public class MenuButton extends JButton {
-    private boolean isActive = false;
+
+    private final ImageIcon icon;
+    private final String text;
+    private boolean active = false;
+    private int cornerRadius = 15;
 
     public MenuButton(String text, ImageIcon icon) {
-        super(text, icon);
-        setFocusPainted(false);
-        setContentAreaFilled(false);
-        setBorderPainted(false);
-        setOpaque(false);
-        setForeground(AppTheme.textWhite);
+        this.text = text;
+        this.icon = icon;
+        this.setText("");
+        this.setFocusPainted(false);
+        this.setBorderPainted(false);
+        this.setContentAreaFilled(false);
+        this.setOpaque(false);
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        
+        // NUEVO: Fuente Rajdhani para botones de menú, distintiva como en referencia
+        this.setFont(AppFonts.getRajdhani(16f)); 
 
-        setFont(org.DevMex.Reysa.ui.themes.AppFonts.getRajdhani(20f));
-        setIconTextGap(15);
-        setHorizontalAlignment(SwingConstants.LEFT);
-        setCursor(new Cursor(Cursor.HAND_CURSOR));
-        setMinimumSize(new Dimension(180, 50));
-        setPreferredSize(new Dimension(220, 50));
-        setMaximumSize(new Dimension(Integer.MAX_VALUE, 60)); // Flexible width for responsive layouts
+        this.setPreferredSize(new Dimension(200, 50));
+        this.setMaximumSize(new Dimension(Integer.MAX_VALUE, 50));
     }
 
     public void setActive(boolean active) {
-        this.isActive = active;
+        this.active = active;
         repaint();
     }
 
     @Override
     protected void paintComponent(Graphics g) {
-        if (isActive) {
-            Graphics2D g2 = (Graphics2D) g.create();
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        Graphics2D g2 = (Graphics2D) g.create();
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        int width = getWidth();
+        int height = getHeight();
+
+        if (active) {
             g2.setColor(AppTheme.reysaRed);
-            g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
-            g2.dispose();
+            g2.fill(new RoundRectangle2D.Double(0, 0, width, height, cornerRadius, cornerRadius));
+        } else {
+            g2.setColor(new Color(255, 255, 255, 10)); // Fondo muy sutil para botones inactivos
+            g2.fill(new RoundRectangle2D.Double(0, 0, width, height, cornerRadius, cornerRadius));
         }
-        super.paintComponent(g);
+
+        int iconX = 20;
+        int iconY = (height - icon.getIconHeight()) / 2;
+        icon.paintIcon(this, g2, iconX, iconY);
+
+        g2.setFont(getFont());
+        g2.setColor(active ? Color.WHITE : new Color(200, 200, 200)); // Texto blanco para activo, gris para inactivo
+        FontMetrics fm = g2.getFontMetrics();
+        int textX = iconX + icon.getIconWidth() + 15;
+        int textY = (height - fm.getHeight()) / 2 + fm.getAscent();
+        g2.drawString(text, textX, textY);
+
+        g2.dispose();
     }
 }

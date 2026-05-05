@@ -2,7 +2,6 @@ package org.DevMex.Reysa.ui.components;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -10,6 +9,8 @@ import java.awt.RenderingHints;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+
+import org.DevMex.Reysa.ui.themes.AppFonts;
 
 public class ElevatedBadge extends JPanel {
     private final String text;
@@ -52,7 +53,7 @@ public class ElevatedBadge extends JPanel {
 
         // Draw Icon + Text
         g2.setColor(fgColor);
-        g2.setFont(new Font("SansSerif", Font.BOLD, 14));
+        g2.setFont(AppFonts.getRajdhaniBold(14f));
         FontMetrics fm = g2.getFontMetrics();
 
         int textX = 15;

@@ -2,13 +2,14 @@ package org.DevMex.Reysa.ui.components;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
 import javax.swing.JPanel;
+
+import org.DevMex.Reysa.ui.themes.AppFonts;
 
 public class InsetField extends JPanel {
     private final String text;
@@ -38,7 +39,7 @@ public class InsetField extends JPanel {
 
        
         g2.setColor(new Color(80, 80, 80));
-        g2.setFont(new Font("SansSerif", Font.BOLD, 13));
+        g2.setFont(AppFonts.getRajdhaniBold(13f));
         FontMetrics fm = g2.getFontMetrics();
         g2.drawString(text, 10, (h - fm.getHeight()) / 2 + fm.getAscent());
 

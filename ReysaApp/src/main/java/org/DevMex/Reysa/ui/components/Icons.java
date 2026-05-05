@@ -33,6 +33,26 @@ public class Icons {
         return loadAndScale("/org/DevMex/Reysa/resources/icons/profile.png", 30, 30);
     }
 
+    public static ImageIcon getCarIcon() {
+        return loadAndScale("/org/DevMex/Reysa/resources/icons/car.png", 36, 36);
+    }
+
+    public static ImageIcon getClockIcon() {
+        return loadAndScale("/org/DevMex/Reysa/resources/icons/clock.png", 36, 36);
+    }
+
+    public static ImageIcon getRanchIcon() {
+        return loadAndScale("/org/DevMex/Reysa/resources/icons/ranch.png", 36, 36);
+    }
+
+    public static ImageIcon getDoneIcon() {
+        return loadAndScale("/org/DevMex/Reysa/resources/icons/done.png", 36, 36);
+    }
+
+    public static ImageIcon getNewClientIcon() {
+        return loadAndScale("/org/DevMex/Reysa/resources/icons/newClient.png", 160, 48);
+    }
+
      public static ImageIcon vehicle1E() {
         return loadAndScale("/org/DevMex/Reysa/resources/icons/vehicle1E.png", 30, 30);
     }
@@ -47,6 +67,16 @@ public class Icons {
 
     public static ImageIcon getVehicleImageLarge() {
         return loadAndScale("/org/DevMex/Reysa/resources/icons/vehicle1E.png", 180, 140);
+    }
+
+    public static ImageIcon getVehicleImageLarge(String imagePath) {
+        ImageIcon icon = loadAndScaleFromFile(imagePath, 180, 140);
+        return icon != null ? icon : getVehicleImageLarge();
+    }
+
+    public static Image getAppIconImage() {
+        ImageIcon icon = loadAndScale("/org/DevMex/Reysa/resources/icons/ReysaL.png", 64, 64);
+        return icon != null ? icon.getImage() : null;
     }
 
     private static ImageIcon loadAndScale(String path, int width, int height) {
@@ -68,6 +98,30 @@ public class Icons {
             System.err.println("Imagen no encontrada: " + path);
         }
         return null;
+    }
+
+    private static ImageIcon loadAndScaleFromFile(String imagePath, int width, int height) {
+        if (imagePath == null || imagePath.isEmpty()) {
+            return null;
+        }
+        try {
+            ImageIcon icon = new ImageIcon(imagePath);
+            Image source = icon.getImage();
+            if (source == null) {
+                return null;
+            }
+            BufferedImage scaledBI = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2 = scaledBI.createGraphics();
+            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+            g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.drawImage(source, 0, 0, width, height, null);
+            g2.dispose();
+            return new ImageIcon(scaledBI);
+        } catch (Exception e) {
+            System.err.println("Error cargando imagen de archivo: " + imagePath);
+            return null;
+        }
     }
 
 }
