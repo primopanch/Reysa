@@ -76,14 +76,22 @@ public class VehiclesPanel extends JPanel implements VehicleStateListener {
         listWrapper.setBackground(Color.WHITE);
         listWrapper.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(220, 220, 220)),
-                BorderFactory.createEmptyBorder(18, 18, 18, 18)));
+                BorderFactory.createEmptyBorder(18, 18, 36, 18)));
 
         vehicleListPanel.setLayout(new BoxLayout(vehicleListPanel, BoxLayout.Y_AXIS));
-        vehicleListPanel.setOpaque(false);
+        vehicleListPanel.setOpaque(true);
+        vehicleListPanel.setBackground(Color.WHITE);
+        vehicleListPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 36, 0));
+        vehicleListPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         rebuildVehicleList();
 
         JScrollPane scrollPane = new JScrollPane(vehicleListPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setOpaque(false);
+        scrollPane.setBackground(Color.WHITE);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        scrollPane.setViewportBorder(BorderFactory.createEmptyBorder(0, 0, 36, 0));
+        scrollPane.getViewport().setOpaque(true);
+        scrollPane.getViewport().setBackground(Color.WHITE);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         listWrapper.add(scrollPane, BorderLayout.CENTER);
 
@@ -109,7 +117,7 @@ public class VehiclesPanel extends JPanel implements VehicleStateListener {
         for (Vehicle vehicle : vehicles) {
             addVehicleCard(vehicle);
         }
-        vehicleListPanel.add(Box.createVerticalGlue());
+        vehicleListPanel.add(Box.createVerticalStrut(32));
         vehicleListPanel.revalidate();
         vehicleListPanel.repaint();
     }

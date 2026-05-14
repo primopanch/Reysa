@@ -21,9 +21,6 @@ public class Main extends JPanel{
         window.setLocationRelativeTo(null);
         window.setVisible(true);
 
-        
-        
-        
     }
 
     

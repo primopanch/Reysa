@@ -1,9 +1,26 @@
 package org.DevMex.Reysa.ui.components;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.util.List;
-import javax.swing.*;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+
 import org.DevMex.Reysa.models.DashboardStats;
 import org.DevMex.Reysa.models.Vehicle;
 import org.DevMex.Reysa.models.VehicleManager;
@@ -47,7 +64,7 @@ public class DashboardPanel extends JPanel {
         greeting.setOpaque(false);
         greeting.setLayout(new BoxLayout(greeting, BoxLayout.Y_AXIS));
 
-        JLabel title = new JLabel("Hola, Admin 👋");
+        JLabel title = new JLabel("Hola, Admin ");
         title.setFont(AppFonts.getOrbitron(34f));
         title.setForeground(AppTheme.textDark);
 
