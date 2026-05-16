@@ -3,7 +3,7 @@ package org.DevMex.Reysa.models;
 import java.awt.Color;
 
 public class Vehicle {
-    private String id;
+    private int id;
     private String marca;
     private String modelo;
     private String color;
@@ -12,11 +12,11 @@ public class Vehicle {
     private VehicleState state;
     private String imagePath;
 
-    public Vehicle(String id, String marca, String modelo, String color, String placas, String vin, VehicleState state) {
+    public Vehicle(int id, String marca, String modelo, String color, String placas, String vin, VehicleState state) {
         this(id, marca, modelo, color, placas, vin, state, null);
     }
 
-    public Vehicle(String id, String marca, String modelo, String color, String placas, String vin, VehicleState state, String imagePath) {
+    public Vehicle(int id, String marca, String modelo, String color, String placas, String vin, VehicleState state, String imagePath) {
         this.id = id;
         this.marca = marca;
         this.modelo = modelo;
@@ -27,7 +27,7 @@ public class Vehicle {
         this.imagePath = imagePath;
     }
 
-    public String getId() { return id; }
+    public int getId() { return id; }
     public String getMarca() { return marca; }
     public String getModelo() { return modelo; }
     public String getColor() { return color; }
@@ -37,7 +37,7 @@ public class Vehicle {
     public String getStatus() { return state.getDisplayName(); }
     public Color getStatusColor() { return state.getColor(); }
 
-    public void setId(String id) { this.id = id; }
+    public void setId(int id) { this.id = id; }
     public void setMarca(String marca) { this.marca = marca; }
     public void setModelo(String modelo) { this.modelo = modelo; }
     public void setColor(String color) { this.color = color; }
