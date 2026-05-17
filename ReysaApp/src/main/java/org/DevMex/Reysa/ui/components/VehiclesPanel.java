@@ -128,7 +128,7 @@ public class VehiclesPanel extends JPanel implements VehicleStateListener {
 
     private int getMatchScore(Vehicle v, String filter) {
         int score = 0;
-        String id = String.valueOf(v.getId());
+        String id = v.getId() != null ? v.getId().toLowerCase() : "";
         String marca = v.getMarca() != null ? v.getMarca().toLowerCase() : "";
         String modelo = v.getModelo() != null ? v.getModelo().toLowerCase() : "";
         String placas = v.getPlacas() != null ? v.getPlacas().toLowerCase() : "";
@@ -153,7 +153,7 @@ public class VehiclesPanel extends JPanel implements VehicleStateListener {
         VehicleCard card = new VehicleCard(
                 vehicleIcon,
                 vehicle.getStatusColor(),
-                String.valueOf(vehicle.getId()),
+                vehicle.getId(),
                 vehicle.getMarca(),
                 vehicle.getModelo(),
                 vehicle.getColor(),
@@ -177,6 +177,7 @@ public class VehiclesPanel extends JPanel implements VehicleStateListener {
         vehicleListPanel.add(card);
         vehicleListPanel.add(Box.createVerticalStrut(12));
     }
+
     private void showVehicleDetail(Vehicle vehicle) {
         if (detailCard != null) {
             contentCards.remove(detailCard);

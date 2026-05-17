@@ -12,7 +12,7 @@ import org.DevMex.Reysa.models.VehicleManager;
 import org.DevMex.Reysa.models.VehicleState;
 import org.DevMex.Reysa.ui.themes.AppFonts;
 import org.DevMex.Reysa.ui.themes.AppTheme;
-import org.DevMex.Reysa.models.Client;
+
 public class ClientsPanel extends JPanel {
 
     private final VehicleManager vehicleManager;
@@ -213,33 +213,20 @@ public class ClientsPanel extends JPanel {
         String color = colorField.getText().trim();
         String placas = placasField.getText().trim();
         String vin = vinField.getText().trim();
-        
-        String nombre = nombreField.getText().trim();
-        String correo = correoField.getText().trim();
-        String telefono = telefonoField.getText().trim();
 
-        if (marca.isEmpty() || modelo.isEmpty() || color.isEmpty() || placas.isEmpty() || vin.isEmpty() || nombre.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor completa todos los campos obligatorios.", "Validación", JOptionPane.WARNING_MESSAGE);
+        if (marca.isEmpty() || modelo.isEmpty() || color.isEmpty() || placas.isEmpty() || vin.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor completa todos los campos del vehículo.", "Validación", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        int newId = vehicleManager.getAllVehicles().size() + 1;
-        
-        Client newClient = new Client(nombre, correo, newId, telefono);
+        String newId = String.format("ORDEN-2026-%03d", vehicleManager.getAllVehicles().size() + 1);
         Vehicle newVehicle = new Vehicle(newId, marca, modelo, color, placas, vin, VehicleState.EN_ESPERA, photoPath);
+        vehicleManager.addVehicle(newVehicle);
 
-        org.DevMex.Reysa.dao.ClientDAO dao = new org.DevMex.Reysa.dao.ClientDAO();
-        boolean exitoBD = dao.registrarTodo(newClient, newVehicle);
-
-        if (exitoBD) {
-            vehicleManager.addVehicle(newVehicle);
-            JOptionPane.showMessageDialog(this, "Cliente y vehículo guardados correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            resetForm();
-        } else {
-            JOptionPane.showMessageDialog(this, "Error al guardar en la base de datos. Verifica la conexión.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        JOptionPane.showMessageDialog(this, "Cliente y vehículo guardados correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        resetForm();
     }
-    
+
     private void resetForm() {
         nombreField.setText("");
         correoField.setText("");

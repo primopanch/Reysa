@@ -11,7 +11,7 @@ public class VehicleManager {
     private VehicleManager() {
         this.vehicles = new ArrayList<>();
         this.listeners = new ArrayList<>();
-        loadVehiclesFromDB();
+        initializeSampleVehicles();
     }
 
     public static VehicleManager getInstance() {
@@ -21,18 +21,12 @@ public class VehicleManager {
         return instance;
     }
 
-    private void loadVehiclesFromDB() {
-        try {
-            org.DevMex.Reysa.dao.ClientDAO dao = new org.DevMex.Reysa.dao.ClientDAO();
-            List<Vehicle> de_la_base = dao.obtenerTodosLosVehiculos();
-            
-            if (de_la_base != null) {
-                this.vehicles = de_la_base;
-            }
-        } catch (Exception e) {
-            System.err.println("Error al cargar desde la DB, iniciando con lista vacía: " + e.getMessage());
-            this.vehicles = new ArrayList<>();
-        }
+    private void initializeSampleVehicles() {
+        addVehicle(new Vehicle("ORDEN-2026-017", "Honda", "Civic 2009", "Gris plata", "B-101-707", "4TX89BN3TXWXXXXXX", VehicleState.EN_REPARACION));
+        addVehicle(new Vehicle("ORDEN-2026-018", "Toyota", "RAV4 2021", "Blanco", "A-202-808", "3T1BF1KA5CU234567", VehicleState.EN_ESPERA));
+        addVehicle(new Vehicle("ORDEN-2026-019", "Nissan", "NP300 2022", "Negro", "C-303-909", "1N6AD0EX5CN345678", VehicleState.EN_ESPERA));
+        addVehicle(new Vehicle("ORDEN-2026-020", "Ford", "F-150 XL 2020", "Azul", "D-404-010", "1FTFW1ET5DFA12345", VehicleState.LISTO_PARA_ENTREGAR));
+        addVehicle(new Vehicle("ORDEN-2026-021", "Chevrolet", "Spark 2017", "Rojo", "E-505-111", "3G1YE57K672123456", VehicleState.EN_REPARACION));
     }
 
     public void addVehicle(Vehicle vehicle) {
@@ -81,20 +75,13 @@ public class VehicleManager {
         }
         return stats;
     }
-    
 
     public void updateVehicleState(Vehicle vehicle, VehicleState newState) {
-        org.DevMex.Reysa.dao.ClientDAO dao = new org.DevMex.Reysa.dao.ClientDAO();
-        
-        boolean ok = dao.actualizarEstado(vehicle.getId(), newState.name());
-
-        if (ok) {
-            VehicleState oldState = vehicle.getState();
-            vehicle.setState(newState);
-            notifyVehicleStatusChanged(vehicle, oldState, newState);
-        }
+        VehicleState oldState = vehicle.getState();
+        vehicle.setState(newState);
+        notifyVehicleStatusChanged(vehicle, oldState, newState);
     }
-    
+
     public void addListener(VehicleStateListener listener) {
         listeners.add(listener);
     }
