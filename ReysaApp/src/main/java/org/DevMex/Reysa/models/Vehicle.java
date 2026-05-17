@@ -12,6 +12,7 @@ public class Vehicle {
     private VehicleState state;
     private String imagePath;
 
+    /*nigger i fucked it up*/
     public Vehicle(String id, String marca, String modelo, String color, String placas, String vin, VehicleState state) {
         this(id, marca, modelo, color, placas, vin, state, null);
     }
