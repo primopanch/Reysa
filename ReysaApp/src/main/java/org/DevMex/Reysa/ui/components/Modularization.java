@@ -1,4 +1,4 @@
-﻿package org.DevMex.Reysa.ui.components;
+package org.DevMex.Reysa.ui.components;
 
 import java.awt.*;
 import javax.swing.*;

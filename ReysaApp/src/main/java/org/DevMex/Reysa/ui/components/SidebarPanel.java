@@ -63,10 +63,18 @@ public class SidebarPanel extends JPanel {
 
         btnTablero.setActive(true);
 
-        navPanel.add(wrapInMargin(btnTablero));
-        navPanel.add(wrapInMargin(btnVehiculos));
-        navPanel.add(wrapInMargin(btnClientes));
-        navPanel.add(wrapInMargin(btnReservas));
+        btnTablero.setAlignmentX(Component.LEFT_ALIGNMENT);
+        btnVehiculos.setAlignmentX(Component.LEFT_ALIGNMENT);
+        btnClientes.setAlignmentX(Component.LEFT_ALIGNMENT);
+        btnReservas.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        navPanel.add(btnTablero);
+        navPanel.add(Box.createVerticalStrut(15));
+        navPanel.add(btnVehiculos);
+        navPanel.add(Box.createVerticalStrut(15));
+        navPanel.add(btnClientes);
+        navPanel.add(Box.createVerticalStrut(15));
+        navPanel.add(btnReservas);
 
         return navPanel;
     }
@@ -122,10 +130,5 @@ public class SidebarPanel extends JPanel {
         }
     }
 
-    private JPanel wrapInMargin(JComponent comp) {
-        JPanel wrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        wrapper.setOpaque(false);
-        wrapper.add(comp);
-        return wrapper;
-    }
+
 }

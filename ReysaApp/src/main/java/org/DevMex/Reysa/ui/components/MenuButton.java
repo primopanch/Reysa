@@ -26,10 +26,10 @@ public class MenuButton extends JButton {
         this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         
         // NUEVO: Fuente Rajdhani para botones de menú, distintiva como en referencia
-        this.setFont(AppFonts.getRajdhani(16f)); 
+        this.setFont(AppFonts.getRajdhani(22f)); 
 
-        this.setPreferredSize(new Dimension(200, 50));
-        this.setMaximumSize(new Dimension(Integer.MAX_VALUE, 50));
+        this.setPreferredSize(new Dimension(220, 60));
+        this.setMaximumSize(new Dimension(220, 60));
     }
 
     public void setActive(boolean active) {
@@ -47,20 +47,27 @@ public class MenuButton extends JButton {
 
         if (active) {
             g2.setColor(AppTheme.reysaRed);
-            g2.fill(new RoundRectangle2D.Double(0, 0, width, height, cornerRadius, cornerRadius));
+            g2.fillRoundRect(0, 0, width, height, height, height);
+            g2.fillRect(0, 0, height / 2, height); // Lado izquierdo cuadrado
         } else {
-            g2.setColor(new Color(255, 255, 255, 10)); // Fondo muy sutil para botones inactivos
-            g2.fill(new RoundRectangle2D.Double(0, 0, width, height, cornerRadius, cornerRadius));
+            g2.setColor(new Color(255, 255, 255, 0)); // Inactivo sin fondo, como en la imagen
+            g2.fillRoundRect(0, 0, width, height, height, height);
         }
 
         int iconX = 20;
-        int iconY = (height - icon.getIconHeight()) / 2;
-        icon.paintIcon(this, g2, iconX, iconY);
+        int iconY = 0;
+        int iconWidth = 0;
+
+        if (icon != null) {
+            iconY = (height - icon.getIconHeight()) / 2;
+            icon.paintIcon(this, g2, iconX, iconY);
+            iconWidth = icon.getIconWidth();
+        }
 
         g2.setFont(getFont());
         g2.setColor(active ? Color.WHITE : new Color(200, 200, 200)); // Texto blanco para activo, gris para inactivo
         FontMetrics fm = g2.getFontMetrics();
-        int textX = iconX + icon.getIconWidth() + 15;
+        int textX = iconX + iconWidth + 15;
         int textY = (height - fm.getHeight()) / 2 + fm.getAscent();
         g2.drawString(text, textX, textY);
 

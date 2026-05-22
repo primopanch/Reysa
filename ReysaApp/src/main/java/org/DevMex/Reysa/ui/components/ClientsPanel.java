@@ -1,4 +1,4 @@
-﻿package org.DevMex.Reysa.ui.components;
+package org.DevMex.Reysa.ui.components;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -117,9 +117,8 @@ public class ClientsPanel extends JPanel {
         leftPanel.setOpaque(false);
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 
-        JPanel photoFrame = new RoundedPanel(new BorderLayout(), 24, false);
+        JPanel photoFrame = new JPanel(new BorderLayout());
         photoFrame.setOpaque(false);
-        photoFrame.setBackground(new Color(245, 245, 245));
         photoFrame.setPreferredSize(new Dimension(320, 240));
         photoFrame.setMinimumSize(new Dimension(100, 100));
         photoFrame.setMaximumSize(new Dimension(320, 240));
@@ -263,62 +262,35 @@ public class ClientsPanel extends JPanel {
     }
 
     private JButton createPrimaryButton(String text) {
-        JButton button = new JButton(text);
+        RoundedButton button = new RoundedButton(text);
         button.setFont(AppFonts.getRajdhaniBold(14f));
         button.setBackground(AppTheme.reysaRed);
         button.setForeground(Color.WHITE);
-        button.setFocusPainted(false);
-        button.setBorder(new RoundedBorder(20));
+        button.setCornerRadius(-1);
         button.setPreferredSize(new Dimension(150, 44));
         return button;
     }
 
     private JButton createSecondaryButton(String text) {
-        JButton button = new JButton(text);
+        RoundedButton button = new RoundedButton(text);
         button.setFont(AppFonts.getRajdhaniBold(14f));
         button.setBackground(new Color(240, 240, 240));
         button.setForeground(AppTheme.textDark);
-        button.setFocusPainted(false);
-        button.setBorder(new RoundedBorder(20));
+        button.setCornerRadius(-1);
         button.setPreferredSize(new Dimension(150, 44));
         return button;
     }
 
     private JPanel createCardPanel(LayoutManager layout) {
-        JPanel card = new RoundedPanel(layout, 24, true);
-        card.setOpaque(false);
-        card.setBackground(Color.WHITE);
-        card.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        ShadowCardPanel card = new ShadowCardPanel(24, 6, Color.WHITE);
+        card.setLayout(layout);
+        card.setBorder(BorderFactory.createCompoundBorder(
+                card.getBorder(),
+                BorderFactory.createEmptyBorder(20, 20, 20, 20)));
         return card;
     }
 
-    private static class RoundedPanel extends JPanel {
-        private final int arc;
-        private final boolean withShadow;
 
-        public RoundedPanel(LayoutManager layout, int arc, boolean withShadow) {
-            super(layout);
-            this.arc = arc;
-            this.withShadow = withShadow;
-            setOpaque(false);
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            int width = getWidth();
-            int height = getHeight();
-            Graphics2D g2 = (Graphics2D) g.create();
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            if (withShadow) {
-                g2.setColor(new Color(0, 0, 0, 24));
-                g2.fillRoundRect(8, 8, width - 16, height - 16, arc, arc);
-            }
-            g2.setColor(getBackground());
-            g2.fillRoundRect(0, 0, width - 8, height - 8, arc, arc);
-            g2.dispose();
-            super.paintComponent(g);
-        }
-    }
 
     private static class RoundedBorder extends AbstractBorder {
         private final int radius;
@@ -338,8 +310,11 @@ public class ClientsPanel extends JPanel {
     }
 
     private JPanel createReservaMetricCard(String title, String value, ImageIcon icon) {
-        JPanel card = createCardPanel(new BorderLayout());
-        card.setBackground(new Color(248, 248, 248));
+        ShadowCardPanel card = new ShadowCardPanel(15, 6, Color.WHITE);
+        card.setLayout(new BorderLayout());
+        card.setBorder(BorderFactory.createCompoundBorder(
+                card.getBorder(),
+                BorderFactory.createEmptyBorder(15, 15, 15, 15)));
 
         JLabel iconLabel = new JLabel(icon);
         iconLabel.setHorizontalAlignment(SwingConstants.CENTER);

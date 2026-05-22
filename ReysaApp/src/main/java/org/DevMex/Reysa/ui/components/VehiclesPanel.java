@@ -72,26 +72,18 @@ public class VehiclesPanel extends JPanel implements VehicleStateListener {
         section.add(Box.createVerticalStrut(20));
 
         JPanel listWrapper = new JPanel(new BorderLayout());
-        listWrapper.setOpaque(true);
-        listWrapper.setBackground(Color.WHITE);
-        listWrapper.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(220, 220, 220)),
-                BorderFactory.createEmptyBorder(18, 18, 36, 18)));
+        listWrapper.setOpaque(false);
 
         vehicleListPanel.setLayout(new BoxLayout(vehicleListPanel, BoxLayout.Y_AXIS));
-        vehicleListPanel.setOpaque(true);
-        vehicleListPanel.setBackground(Color.WHITE);
+        vehicleListPanel.setOpaque(false);
         vehicleListPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 36, 0));
         vehicleListPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         rebuildVehicleList();
 
         JScrollPane scrollPane = new JScrollPane(vehicleListPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setOpaque(false);
-        scrollPane.setBackground(Color.WHITE);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
-        scrollPane.setViewportBorder(BorderFactory.createEmptyBorder(0, 0, 36, 0));
-        scrollPane.getViewport().setOpaque(true);
-        scrollPane.getViewport().setBackground(Color.WHITE);
+        scrollPane.getViewport().setOpaque(false);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         listWrapper.add(scrollPane, BorderLayout.CENTER);
 

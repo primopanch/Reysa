@@ -64,7 +64,7 @@ public class DashboardPanel extends JPanel {
         greeting.setOpaque(false);
         greeting.setLayout(new BoxLayout(greeting, BoxLayout.Y_AXIS));
 
-        JLabel title = new JLabel("Hola, Admin ");
+        JLabel title = new JLabel("Hola, Admin \uD83D\uDC4B");
         title.setFont(AppFonts.getOrbitron(34f));
         title.setForeground(AppTheme.textDark);
 
@@ -124,26 +124,33 @@ public class DashboardPanel extends JPanel {
     }
 
     private JPanel createMetricCard(String title, JLabel valueLabel, ImageIcon icon, Color accent) {
-        JPanel card = new JPanel(new BorderLayout(0, 12));
-        card.setOpaque(true);
-        card.setBackground(Color.WHITE);
+        ShadowCardPanel card = new ShadowCardPanel(15, 6, Color.WHITE);
+        card.setLayout(new BorderLayout(15, 0));
         card.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(220, 220, 220)),
-                BorderFactory.createEmptyBorder(18, 18, 18, 18)));
+                card.getBorder(),
+                BorderFactory.createEmptyBorder(15, 15, 15, 25)));
 
         JLabel iconLabel = new JLabel(icon);
-        iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        card.add(iconLabel, BorderLayout.NORTH);
+        card.add(iconLabel, BorderLayout.WEST);
 
-        JLabel titleLabel = new JLabel(title);
-        titleLabel.setFont(AppFonts.getRajdhani(12f));
-        titleLabel.setForeground(new Color(110, 110, 110));
-        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        card.add(titleLabel, BorderLayout.CENTER);
+        JPanel rightPanel = new JPanel();
+        rightPanel.setOpaque(false);
+        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
 
-        valueLabel.setForeground(accent);
-        valueLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        card.add(valueLabel, BorderLayout.SOUTH);
+        String htmlTitle = "<html><div style='text-align: center; width: 100%;'>" + title.replace(" ", "<br>") + "</div></html>";
+        JLabel titleLabel = new JLabel(htmlTitle);
+        titleLabel.setFont(AppFonts.getRajdhani(14f));
+        titleLabel.setForeground(new Color(100, 100, 100));
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        valueLabel.setForeground(AppTheme.textDark);
+        valueLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        rightPanel.add(titleLabel);
+        rightPanel.add(Box.createVerticalStrut(8));
+        rightPanel.add(valueLabel);
+
+        card.add(rightPanel, BorderLayout.CENTER);
         return card;
     }
 
@@ -156,12 +163,11 @@ public class DashboardPanel extends JPanel {
     }
 
     private JPanel createDashboardTableCard() {
-        JPanel card = new JPanel(new BorderLayout());
-        card.setOpaque(true);
-        card.setBackground(Color.WHITE);
+        ShadowCardPanel card = new ShadowCardPanel(15, 6, Color.WHITE);
+        card.setLayout(new BorderLayout());
         card.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(220, 220, 220)),
-                BorderFactory.createEmptyBorder(18, 18, 18, 18)));
+                card.getBorder(),
+                BorderFactory.createEmptyBorder(20, 20, 20, 20)));
 
         JLabel title = new JLabel("Ingresos y Actividad Reciente");
         title.setFont(AppFonts.getRajdhani(16f));
@@ -209,13 +215,11 @@ public class DashboardPanel extends JPanel {
     }
 
     private JPanel createDashboardSummaryCard() {
-        JPanel card = new JPanel();
+        ShadowCardPanel card = new ShadowCardPanel(15, 6, Color.WHITE);
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
-        card.setOpaque(true);
-        card.setBackground(Color.WHITE);
         card.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(220, 220, 220)),
-                BorderFactory.createEmptyBorder(18, 18, 18, 18)));
+                card.getBorder(),
+                BorderFactory.createEmptyBorder(25, 25, 25, 25)));
 
         JLabel title = new JLabel("Resumen de la semana");
         title.setFont(AppFonts.getRajdhani(16f));
@@ -230,13 +234,12 @@ public class DashboardPanel extends JPanel {
         card.add(createProgressStat("Capacidad Ocupada", 62, new Color(245, 130, 32)));
         card.add(Box.createVerticalStrut(18));
 
-        JButton reportButton = new JButton("Generar Reporte Completo");
+        RoundedButton reportButton = new RoundedButton("Generar Reporte Completo");
         reportButton.setAlignmentX(Component.LEFT_ALIGNMENT);
         reportButton.setBackground(AppTheme.baseBlack);
         reportButton.setForeground(Color.WHITE);
         reportButton.setFont(AppFonts.getRajdhaniBold(14f));
-        reportButton.setFocusPainted(false);
-        reportButton.setBorder(BorderFactory.createEmptyBorder(12, 18, 12, 18));
+        reportButton.setCornerRadius(10);
         card.add(reportButton);
 
         return card;

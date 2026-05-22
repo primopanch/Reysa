@@ -24,7 +24,7 @@ import javax.swing.JPanel;
 
 import org.DevMex.Reysa.ui.themes.AppFonts; // NUEVO: Import explícito de AppFonts
 
-public class VehicleCard extends JPanel {
+public class VehicleCard extends ShadowCardPanel {
 
     private final int cornerRadius = 20;
     private final int shadowSize = 6;
@@ -44,6 +44,7 @@ public class VehicleCard extends JPanel {
     public VehicleCard(ImageIcon imageIcon, Color imgBorderColor, String idText, 
                        String marca, String modelo, String color, String placas, 
                        String vin, String statusText, Color statusColor, ImageIcon statusIcon) {
+        super(20, 6, Color.WHITE);
         this.idText = idText;
         this.marca = marca;
         this.modelo = modelo;
@@ -54,9 +55,11 @@ public class VehicleCard extends JPanel {
         this.statusColor = statusColor;
         this.imageIcon = imageIcon;
 
-        setOpaque(false); 
         setLayout(new BorderLayout(20, 0));
-        setBorder(BorderFactory.createEmptyBorder(15, 15, 15 + shadowSize, 15 + shadowSize));
+        setBorder(BorderFactory.createCompoundBorder(
+            getBorder(),
+            BorderFactory.createEmptyBorder(15, 15, 15, 15)
+        ));
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         addMouseListener(new MouseAdapter() {
@@ -182,28 +185,6 @@ public class VehicleCard extends JPanel {
         return label;
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g.create();
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        int width = getWidth() - shadowSize - 5;
-        int height = getHeight() - shadowSize - 5;
-
-        // Dibujar sombra
-        for (int i = 0; i < shadowSize; i++) {
-            int alpha = (int) (shadowOpacity * (1.0f - (float)i / shadowSize));
-            g2.setColor(new Color(0, 0, 0, alpha));
-            g2.fillRoundRect(5 + i, 5 + i, width, height, cornerRadius, cornerRadius);
-        }
-
-        // Dibujar fondo de la tarjeta
-        g2.setColor(new Color(230, 230, 230)); 
-        g2.fillRoundRect(5, 5, width, height, cornerRadius, cornerRadius);
-
-        g2.dispose();
-    }
 
     private class InsetField extends JPanel {
         private final String text;
