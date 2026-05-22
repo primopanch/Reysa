@@ -55,13 +55,11 @@ public class ReservasPanel extends JPanel {
     }
 
     private JPanel createScheduleCard() {
-        JPanel scheduleCard = new JPanel();
+        ShadowCardPanel scheduleCard = new ShadowCardPanel(20, 6, Color.WHITE);
         scheduleCard.setLayout(new BoxLayout(scheduleCard, BoxLayout.Y_AXIS));
-        scheduleCard.setOpaque(true);
-        scheduleCard.setBackground(Color.WHITE);
         scheduleCard.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(220, 220, 220)),
-                BorderFactory.createEmptyBorder(18, 18, 18, 18)));
+                scheduleCard.getBorder(),
+                BorderFactory.createEmptyBorder(20, 20, 20, 20)));
 
         JPanel scheduleHeader = new JPanel(new BorderLayout());
         scheduleHeader.setOpaque(false);
@@ -107,12 +105,11 @@ public class ReservasPanel extends JPanel {
     }
 
     private JPanel createReservaMetricCard(String title, String value, ImageIcon icon) {
-        JPanel card = new JPanel(new BorderLayout());
-        card.setOpaque(true);
-        card.setBackground(new Color(245, 245, 245));
+        ShadowCardPanel card = new ShadowCardPanel(15, 6, new Color(250, 250, 250));
+        card.setLayout(new BorderLayout());
         card.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(220, 220, 220)),
-                BorderFactory.createEmptyBorder(16, 16, 16, 16)));
+                card.getBorder(),
+                BorderFactory.createEmptyBorder(15, 15, 15, 15)));
 
         JLabel iconLabel = new JLabel(icon);
         iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
