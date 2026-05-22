@@ -2,6 +2,7 @@ package org.DevMex.Reysa.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.DevMex.Reysa.dao.ClientDAO;
 
 public class VehicleManager {
     private List<Vehicle> vehicles;
@@ -11,7 +12,14 @@ public class VehicleManager {
     private VehicleManager() {
         this.vehicles = new ArrayList<>();
         this.listeners = new ArrayList<>();
-        initializeSampleVehicles();
+        
+        ClientDAO dao = new ClientDAO();
+        List<Vehicle> dbVehicles = dao.obtenerTodosLosVehiculos();
+        if (dbVehicles != null && !dbVehicles.isEmpty()) {
+            this.vehicles.addAll(dbVehicles);
+        } else {
+            initializeSampleVehicles();
+        }
     }
 
     public static VehicleManager getInstance() {
@@ -77,9 +85,19 @@ public class VehicleManager {
     }
 
     public void updateVehicleState(Vehicle vehicle, VehicleState newState) {
-        VehicleState oldState = vehicle.getState();
-        vehicle.setState(newState);
-        notifyVehicleStatusChanged(vehicle, oldState, newState);
+        ClientDAO dao = new ClientDAO();
+        boolean ok = dao.actualizarEstado(vehicle.getId(), newState.name());
+        
+        if (ok) {
+            VehicleState oldState = vehicle.getState();
+            vehicle.setState(newState);
+            notifyVehicleStatusChanged(vehicle, oldState, newState);
+        } else {
+            // Even if DB fails, update local state or log error (for demo purposes we update it anyway)
+            VehicleState oldState = vehicle.getState();
+            vehicle.setState(newState);
+            notifyVehicleStatusChanged(vehicle, oldState, newState);
+        }
     }
 
     public void addListener(VehicleStateListener listener) {

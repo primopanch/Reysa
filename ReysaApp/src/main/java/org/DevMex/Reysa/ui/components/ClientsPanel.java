@@ -10,6 +10,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import org.DevMex.Reysa.models.Vehicle;
 import org.DevMex.Reysa.models.VehicleManager;
 import org.DevMex.Reysa.models.VehicleState;
+import org.DevMex.Reysa.models.Client;
+import org.DevMex.Reysa.dao.ClientDAO;
 import org.DevMex.Reysa.ui.themes.AppFonts;
 import org.DevMex.Reysa.ui.themes.AppTheme;
 
@@ -213,17 +215,31 @@ public class ClientsPanel extends JPanel {
         String placas = placasField.getText().trim();
         String vin = vinField.getText().trim();
 
-        if (marca.isEmpty() || modelo.isEmpty() || color.isEmpty() || placas.isEmpty() || vin.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor completa todos los campos del vehículo.", "Validación", JOptionPane.WARNING_MESSAGE);
+        String nombre = nombreField.getText().trim();
+        String correo = correoField.getText().trim();
+        String telefono = telefonoField.getText().trim();
+
+        if (marca.isEmpty() || modelo.isEmpty() || color.isEmpty() || placas.isEmpty() || vin.isEmpty() || nombre.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor completa todos los campos obligatorios del cliente y vehículo.", "Validación", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         String newId = String.format("ORDEN-2026-%03d", vehicleManager.getAllVehicles().size() + 1);
-        Vehicle newVehicle = new Vehicle(newId, marca, modelo, color, placas, vin, VehicleState.EN_ESPERA, photoPath);
-        vehicleManager.addVehicle(newVehicle);
+        int intId = ClientDAO.parseVehicleId(newId);
 
-        JOptionPane.showMessageDialog(this, "Cliente y vehículo guardados correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-        resetForm();
+        Client newClient = new Client(nombre, correo, intId, telefono);
+        Vehicle newVehicle = new Vehicle(newId, marca, modelo, color, placas, vin, VehicleState.EN_ESPERA, photoPath);
+
+        ClientDAO dao = new ClientDAO();
+        boolean exitoBD = dao.registrarTodo(newClient, newVehicle);
+
+        if (exitoBD) {
+            vehicleManager.addVehicle(newVehicle);
+            JOptionPane.showMessageDialog(this, "Cliente y vehículo guardados correctamente en BD.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            resetForm();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al guardar en la base de datos. Verifica la conexión MySQL.", "Error BD", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void resetForm() {
